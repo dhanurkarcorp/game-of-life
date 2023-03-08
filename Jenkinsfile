@@ -12,7 +12,7 @@ pipeline {
                 jdk 'JDK8'
             }
             steps {
-                sh 'export PATH="/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin:$PATH" && mvn package'
+                sh 'mvn package'
             }    
         }
         stage('archive artifact') {
