@@ -26,8 +26,8 @@ pipeline {
                          onlyIfSuccessful: true
                 junit testResults: '**/surefire-reports/TEST-*.xml',
                         allowEmptyResults: true
-                mail subject : 'build failed'
-                        to : 'surajd@sdcorp.net'                     
+                mail subject: 'build failed'
+                        to: 'surajd@sdcorp.net'                     
             }
         }
     }
