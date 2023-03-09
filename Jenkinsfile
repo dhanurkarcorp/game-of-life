@@ -1,6 +1,9 @@
 pipeline {
     agent { label 'maven_jdk8'}
     triggers { pollSCM ('H/30 * * * *') }
+    parameters {
+        string(name: 'MAVEN_GOAL', defaultValue: 'package', description: 'MAVEN GOAL') }
+    }
     stages {
         stage('vcs') {
             steps {
@@ -13,7 +16,7 @@ pipeline {
                 PATH="/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin:$PATH"
             }
             steps {
-                sh 'mvn package'
+                sh "mvn ${params.MAVEN_GOAL}"
             }
         }
         stage('archeive artifcat and publish junit test') {
