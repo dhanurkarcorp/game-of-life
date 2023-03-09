@@ -1,6 +1,5 @@
 pipeline {
     agent { label 'maven_jdk8'}
-    triggers { cron ('H/15 * * * *')}
     triggers { pollSCM ('H/30 * * * *') }
     parameters {
         string(name: 'MAVEN_GOAL', defaultValue: 'package', description: 'MAVEN GOAL') }
