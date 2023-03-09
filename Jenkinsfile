@@ -1,10 +1,12 @@
 pipeline {
     agent { label 'maven_jdk8'}
-    trigger { pollSCM('H/30 * * * *') }
+    triggers { pollSCM('H/30 * * * *') }
     stages {
         stage('vcs') {
+            steps {
             git url : 'https://github.com/dhanurkarcorp/game-of-life.git',
                 branch: 'master'
+            }
         }
         stage('package') {
             environment {
