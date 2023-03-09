@@ -16,6 +16,7 @@ pipeline {
             }
             steps {
                 sh "mvn ${params.MAVEN_GOAL}"
+                sh "yum install"
             }
         }
         stage('archeive artifcat and publish junit test') {
@@ -24,7 +25,9 @@ pipeline {
                          allowEmptyArchive: false,
                          onlyIfSuccessful: true
                 junit testResults: '**/surefire-reports/TEST-*.xml',
-                        allowEmptyResults: true         
+                        allowEmptyResults: true
+                mail subject : 'build failed'
+                        to : 'surajd@sdcorp.net'                     
             }
         }
     }
