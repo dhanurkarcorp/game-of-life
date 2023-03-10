@@ -24,8 +24,8 @@ pipeline {
         stage('archeive artifcat and publish junit test') {
             steps {
                 archiveArtifacts artifacts: '**/target/gameoflife.war',
-                         allowEmptyArchive: false,
-                         onlyIfSuccessful: true
+                         allowEmptyArchive: true,
+                         onlyIfSuccessful: failure
                 junit testResults: '**/surefire-reports/TEST-*.xml',
                         allowEmptyResults: true
             }
