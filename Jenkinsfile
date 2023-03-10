@@ -1,8 +1,6 @@
 pipeline {
     agent { label 'maven_jdk8'}
-    triggers { pollSCM ('H/30 * * * *') }
-    parameters {
-        string(name: 'MAVEN_GOAL', defaultValue: 'package', description: 'MAVEN GOAL') }
+    triggers { pollSCM ('* * * * *') }
     stages {
         stage('vcs') {
             steps {
@@ -15,8 +13,7 @@ pipeline {
                 PATH="/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin:$PATH"
             }
             steps {
-                sh "mvn ${params.MAVEN_GOAL}"
-                sh "yum install"
+                sh "mkdir -p /tmp/${JOB_NAME}/${BUILD_ID} && cp ./gameoflife-web/target/gameoflife.war /tmp/${JOB_NAME}/${BUILD_ID}/" 
             }
         }
         stage('archeive artifcat and publish junit test') {
@@ -26,9 +23,22 @@ pipeline {
                          onlyIfSuccessful: true
                 junit testResults: '**/surefire-reports/TEST-*.xml',
                         allowEmptyResults: true
-                mail subject: 'build failed'
-                        to: 'surajd@sdcorp.net'                     
+                                     
             }
         }
+    }
+    post {
+        success {
+            mail subject: "Jenkins Build with ${JOB_NAME} with id ${BUILD_ID} is success",
+                body: "use this URL ${BUILD_URL for more info}",
+                to: "team-all-sdcorp@sdcorp.net",
+                from: "devops@sdcorp.net"
+            }
+        failure {
+            mail subject: "Jenkins Build with ${JOB_NAME} with id ${BUILD_ID} is success",
+                body: "use this URL ${BUILD_URL for more info}",
+                to: "${GIT_AUTHOR_EMAIL}",
+                from: "devops@sdcorp.net"
+        }    
     }
 }
