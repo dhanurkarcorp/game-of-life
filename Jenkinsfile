@@ -13,7 +13,7 @@ pipeline {
                 PATH="/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin:$PATH"
             }
             steps {
-                sh 'mvn package'
+                sh 'mvn installing'
             }
         }    
         stage('copy build')  {  
@@ -39,7 +39,7 @@ pipeline {
                 from: "devops@sdcorp.net"
             }
         failure {
-            mail subject: "Jenkins Build with ${JOB_NAME} with id ${BUILD_ID} is success",
+            mail subject: "Jenkins Build with ${JOB_NAME} with id ${BUILD_ID} is failed",
                 body: "use this URL ${BUILD_URL} for more info",
                 to: "${GIT_AUTHOR_EMAIL}",
                 from: "devops@sdcorp.net"
