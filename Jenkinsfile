@@ -24,8 +24,8 @@ pipeline {
         stage('archeive artifcat and publish junit test') {
             steps {
                 archiveArtifacts artifacts: '**/target/gameoflife.war',
-                         allowEmptyArchive: true,
-                         onlyIfSuccessful: failure
+                         allowEmptyArchive: false,
+                         onlyIfSuccessful: true
                 junit testResults: '**/surefire-reports/TEST-*.xml',
                         allowEmptyResults: true
             }
@@ -41,7 +41,7 @@ pipeline {
         failure {
             mail subject: "Jenkins Build with ${JOB_NAME} id ${BUILD_ID} is failed",
                 body: "use this URL ${BUILD_URL} for more info",
-                to: "${GIT_AUTHOR_EMAIL}",
+                to: "test@sdcorp.net",
                 from: "devops@sdcorp.net"
         }    
     }
