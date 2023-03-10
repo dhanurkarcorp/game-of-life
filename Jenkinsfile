@@ -30,7 +30,7 @@ pipeline {
     post {
         success {
             mail subject: "Jenkins Build with ${JOB_NAME} with id ${BUILD_ID} is success",
-                body: "use this URL ${BUILD_URL for more info}",
+                body: "use this URL ${BUILD_URL} for more info",
                 to: "team-all-sdcorp@sdcorp.net",
                 from: "devops@sdcorp.net"
             }
